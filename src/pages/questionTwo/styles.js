@@ -6,11 +6,13 @@ const styles = {
 		height: '100%',
 	},
 	card: {
+		display: 'flex',
+		flexFlow: 'column nowrap',
 		maxWidth: 600,
 		margin: 48,
 	},
 	media: {
-		height: 240,
+		minHeight: 240,
 	},
 	content:{
 		height: '100%',
