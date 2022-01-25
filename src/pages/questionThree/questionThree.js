@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 
@@ -21,7 +21,7 @@ const createMockData = () =>{
 	]
 };
 
-const useStyles = makeStyles(() => ({
+const createStyles = makeStyles(() => ({
 	container:{
 		display: 'flex',
 		justifyContent: 'center',
@@ -36,21 +36,26 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-class questionThree extends Component {
-	render(){
-		const classes = useStyles();
-		const mockData = createMockData();
-		return (
-			<div className={classes.container}>
-				<Paper>
-					<List className={classes.root}>
-						{mockData.map((item, i) =>{
-							return <QuestionListItem item={item} key={item.id} divider={i !== mockData.length -1}/>
-						})}
-					</List>
-				</Paper>
-			</div>
-		);
-	}
+const questionThree = () => {
+	// Not a hook so rename "useStyles" to "createStyles" here & in questionListItem
+	const classes = createStyles();
+	const mockData = createMockData();
+	// Example pic order is Jon -> T-100 -> Barry -> Roger
+	// But createMockData fn returns T-100 -> Barry -> Roger -> Jon after fixing "mocks"
+	// Assuming desc sort by description
+	mockData.sort((a, b) => b.description.localeCompare(a.description))
+	return (
+		<div className={classes.container}>
+			<Paper>
+				<List className={classes.root}>
+					{mockData.map((item, i) =>{
+						// Pass full object via destructuring
+						return <QuestionListItem {...item} key={item.id} divider={i !== mockData.length -1}/>
+					})}
+				</List>
+			</Paper>
+		</div>
+	)
 }
+
 export default questionThree
